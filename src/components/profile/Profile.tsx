@@ -1,3 +1,5 @@
+import './Profile.scss';
+
 import { formatEther } from '@ethersproject/units';
 import { useEthers, NodeUrls, useEtherBalance, useTokenBalance } from '@usedapp/core';
 
@@ -6,21 +8,21 @@ import { contractAddress } from '../../contans/token';
 import { reloadPage } from '../../utils/index';
 
 export const Profile = () => {
-    //Todo handle reject connect
     const { activateBrowserWallet, deactivate, active, account, chainId, error } = useEthers();
     const etherBalance = useEtherBalance(account);
     const daiBalance = useTokenBalance(contractAddress, account);
     const isInvalidNetwork = !chainId || !(config.readOnlyUrls as NodeUrls)[chainId];
-    console.log('error', error);
+    /* console.log('error', error);
     console.log('active', active);
-    console.log('daiBalance', daiBalance);
+    console.log('daiBalance', daiBalance); */
 
     if (active && isInvalidNetwork) {
         return <p>Please use Goerli testnet.</p>;
     }
 
     return (
-        <div>
+        <div className='profile'>
+            <h2>Profile</h2>
             {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
 
             {account && (
