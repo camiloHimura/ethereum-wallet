@@ -1,0 +1,8 @@
+build
+coverage
+node_modules
+**/*.tsx.snap
+src/__mocks__
+dex_templates
+oauth2_proxy_templates
+public

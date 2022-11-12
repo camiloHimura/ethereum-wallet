@@ -1,0 +1,14 @@
+.booksRow {
+    display: flex;
+    font-size: 0.72em;
+    justify-content: space-evenly;
+
+    & > div {
+        min-width: 25%;
+        text-align: center;
+    }
+
+    & > div:last-child {
+        text-align: right;
+    }
+}

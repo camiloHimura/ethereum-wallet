@@ -1,0 +1,11 @@
+.booksHeader {
+    display: flex;
+    color: #abb1b6;
+    font-size: 0.74em;
+    justify-content: space-evenly;
+
+    & > div {
+        min-width: 25%;
+        text-align: center;
+    }
+}
