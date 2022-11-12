@@ -1,5 +1,8 @@
 import './Profile.scss';
 
+import { useEffect, useState } from 'react';
+
+import { Heading, Flex, Content, Button, Divider, Text, View, Well } from '@adobe/react-spectrum';
 import { formatEther } from '@ethersproject/units';
 import { useEthers, NodeUrls, useEtherBalance, useTokenBalance } from '@usedapp/core';
 
@@ -9,48 +12,72 @@ import { reloadPage } from '../../utils/index';
 
 export const Profile = () => {
     const { activateBrowserWallet, deactivate, active, account, chainId, error } = useEthers();
-    const etherBalance = useEtherBalance(account);
     const daiBalance = useTokenBalance(contractAddress, account);
+    const etherBalance = useEtherBalance(account);
+    const [activateError, setActivateError] = useState<null | string>(null);
+
     const isInvalidNetwork = !chainId || !(config.readOnlyUrls as NodeUrls)[chainId];
-    /* console.log('error', error);
-    console.log('active', active);
-    console.log('daiBalance', daiBalance); */
+    const balaceMessage = etherBalance ? `Ether balance: ${formatEther(etherBalance)} ETH` : 'Requesting balance...';
+
+    useEffect(() => {
+        error && setActivateError(error.message);
+        !error && activateError && setActivateError(null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [error]);
 
     if (active && isInvalidNetwork) {
-        return <p>Please use Goerli testnet.</p>;
+        return <Well>Please use Goerli testnet.</Well>;
     }
 
     return (
-        <div className='profile'>
-            <h2>Profile</h2>
-            {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
+        <View borderWidth='thin' borderColor='dark' borderRadius='medium' padding='size-250'>
+            <Heading level={2}>Profile</Heading>
 
-            {account && (
-                <button
-                    onClick={() => {
-                        deactivate();
-                        reloadPage();
-                    }}
-                >
-                    Deactivate
-                </button>
-            )}
+            <Flex direction='row' gap='size-250'>
+                <Flex alignItems={'center'}>
+                    {!account && (
+                        <Button
+                            variant='primary'
+                            onPress={() => {
+                                setActivateError(null);
+                                activateBrowserWallet();
+                            }}
+                        >
+                            Connect
+                        </Button>
+                    )}
 
-            {account && <p>Account: {account}</p>}
+                    {account && (
+                        <Button
+                            variant='primary'
+                            onPress={() => {
+                                deactivate();
+                                reloadPage();
+                            }}
+                        >
+                            Deactivate
+                        </Button>
+                    )}
+                </Flex>
+                <Content>
+                    {account && (
+                        <>
+                            <Text>Account: {account}</Text>
+                            <Divider size='S' />
+                            <Text>{balaceMessage}</Text>
+                        </>
+                    )}
 
-            {etherBalance && (
-                <div className='balance'>
-                    Ether balance:
-                    <p className='bold'>{formatEther(etherBalance)} ETH</p>
-                </div>
-            )}
+                    {daiBalance && (
+                        <>
+                            <Divider size='S' />
+                            <Text>contract balance: {formatEther(daiBalance)}</Text>
+                        </>
+                    )}
+                </Content>
+            </Flex>
 
-            {daiBalance && (
-                <div className='balance'>
-                    contract balance:
-                    <p className='bold'>{formatEther(daiBalance)}</p>
-                </div>
-            )}
-        </div>
+            {activateError && <Well marginTop={'size-250'}>{activateError}</Well>}
+        </View>
     );
 };

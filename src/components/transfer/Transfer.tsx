@@ -14,7 +14,7 @@ const contract = new Contract(contractAddress, wethInterface);
 export const Transfer = () => {
     //Todo add state.errorMessage and show it to the user
     const { state, send } = useContractFunction(contract, 'transfer', { transactionName: 'Transfer' });
-    console.log('transaction state', state);
+    /* console.log('transaction state', state); */
     const [amount, setAmount] = useState(0);
     const [address, setAddress] = useState('');
     const [isSending, setIsSending] = useState(false);

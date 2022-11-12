@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { DAppProvider } from '@usedapp/core';
 import ReactDOM from 'react-dom/client';
 
@@ -11,8 +12,10 @@ import { config } from './contans/connection';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <React.StrictMode>
-        <DAppProvider config={config}>
-            <App />
-        </DAppProvider>
+        <Provider theme={defaultTheme}>
+            <DAppProvider config={config}>
+                <App />
+            </DAppProvider>
+        </Provider>
     </React.StrictMode>
 );
