@@ -1,4 +1,4 @@
-import './Transfer.scss';
+import './Mint.scss';
 
 import { FormEventHandler, useState } from 'react';
 
@@ -9,11 +9,13 @@ import { utils } from 'ethers';
 import { contractAddress, contracAbi } from '../../contans/smart-contract';
 
 const wethInterface = new utils.Interface(contracAbi);
+//const wethInterface = new utils.Interface(['function transfer(address, uint256)']);
+console.log('wethInterface', wethInterface);
 const contract = new Contract(contractAddress, wethInterface);
 
-export const Transfer = () => {
+export const Mint = () => {
     //Todo add state.errorMessage and show it to the user
-    const { state, send } = useContractFunction(contract, 'transfer', { transactionName: 'Transfer' });
+    const { state, send } = useContractFunction(contract, 'mint', { transactionName: 'Mint' });
     console.log('transaction state', state);
     const [amount, setAmount] = useState(0);
     const [address, setAddress] = useState('');
@@ -27,8 +29,8 @@ export const Transfer = () => {
     };
 
     return (
-        <div className='transfer'>
-            <h2>Transfer</h2>
+        <div className='mint'>
+            <h2>Mint</h2>
             <form onSubmit={onSubmit}>
                 <input
                     type='text'
