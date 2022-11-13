@@ -2,7 +2,7 @@ import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { render, screen } from '@testing-library/react';
 import { useContractFunction, TransactionStatus } from '@usedapp/core';
 
-import { Transfer } from './Transfer';
+import { Mint } from './Mint';
 
 jest.mock('@usedapp/core', () => ({
     ...jest.requireActual('@usedapp/core'),
@@ -14,7 +14,7 @@ const mockecTransactionStatus = (props: Partial<TransactionStatus>): Transaction
     ...props,
 });
 
-describe('Transfer', () => {
+describe('Mint', () => {
     beforeEach(() => {
         jest.resetAllMocks();
     });
@@ -29,13 +29,13 @@ describe('Transfer', () => {
 
         render(
             <Provider theme={defaultTheme}>
-                <Transfer />
+                <Mint />
             </Provider>
         );
 
-        expect(screen.getByText('Transfer')).toBeVisible();
-        expect(useContractFunction).toHaveBeenLastCalledWith(expect.anything(), 'transfer', {
-            transactionName: 'Transfer',
+        expect(screen.getByText('Mint')).toBeVisible();
+        expect(useContractFunction).toHaveBeenLastCalledWith(expect.anything(), 'mint', {
+            transactionName: 'Mint',
         });
     });
 });

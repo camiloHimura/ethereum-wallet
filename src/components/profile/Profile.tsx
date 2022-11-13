@@ -11,7 +11,7 @@ import { contractAddress } from '../../contans/token';
 import { reloadPage } from '../../utils/index';
 
 export const Profile = () => {
-    const { activateBrowserWallet, deactivate, active, account, chainId, error } = useEthers();
+    const { activateBrowserWallet, deactivate, active, account, chainId, error, isLoading } = useEthers();
     const daiBalance = useTokenBalance(contractAddress, account);
     const etherBalance = useEtherBalance(account);
     const [activateError, setActivateError] = useState<null | string>(null);
@@ -38,6 +38,7 @@ export const Profile = () => {
                     {!account && (
                         <Button
                             variant='primary'
+                            isDisabled={isLoading}
                             onPress={() => {
                                 setActivateError(null);
                                 activateBrowserWallet();
