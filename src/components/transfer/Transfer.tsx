@@ -17,6 +17,7 @@ export const Transfer = () => {
     return (
         <View
             flexGrow={1}
+            flexBasis={'min-content'}
             borderWidth='thin'
             borderColor='dark'
             marginTop='size-250'
